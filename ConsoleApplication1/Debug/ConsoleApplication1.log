@@ -1,0 +1,10 @@
+﻿  kolo.cpp
+d:\gicior\consoleapplication1\consoleapplication1\kolo.cpp(190): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\gicior\consoleapplication1\consoleapplication1\kolo.cpp(233): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  class.cpp
+d:\gicior\consoleapplication1\consoleapplication1\class.cpp(26): warning C4018: '<=': signed/unsigned mismatch
+d:\gicior\consoleapplication1\consoleapplication1\class.cpp(58): warning C4018: '<=': signed/unsigned mismatch
+d:\gicior\consoleapplication1\consoleapplication1\class.cpp(75): warning C4018: '<=': signed/unsigned mismatch
+d:\gicior\consoleapplication1\consoleapplication1\class.cpp(115): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  ConsoleApplication1.vcxproj -> D:\gicior\ConsoleApplication1\Debug\ConsoleApplication1.exe
