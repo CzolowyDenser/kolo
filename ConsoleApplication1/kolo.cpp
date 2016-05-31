@@ -14,7 +14,6 @@
 using namespace std;
 
 int currentRound = 1;
-int currentPlayer = 0;
 
 struct options
 {
@@ -26,12 +25,8 @@ void getSettings();
 void showRules();
 void playerRoundNumbers(options&);
 int randomNumber();
-int getReward();
-
-
 
 vector <int> questionNumber(one.roundNumbers+1);
-
 
 int main()
 {
@@ -46,19 +41,25 @@ int main()
 		cout << "4. Ustawienia gry." << endl;
 		cout << "5. Wyjscie." << endl;
 
-		cin >> menu;
+		while (!(cin >> menu) || menu >= 6)
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Zla wartosc." << endl;
+			cout << "Sprobuj jeszcze raz: ";
+		}
 		switch (menu)
 		{
 			
 		case 1:
 		{
-		
 			system("cls");
-	
+
 			getSettings();
 
 			vector <Player> playerV(one.playerNumbers);
 			vector <Question> questionV(one.roundNumbers);
+			vector <Player> sort(one.playerNumbers);
 
 			cin.get();
 			for (int i = 0; i < one.playerNumbers; i++)
@@ -81,19 +82,38 @@ int main()
 				
 				do
 				{
-					for (j = 0; j<one.playerNumbers; j++)
+					for (j; j < one.playerNumbers;)
 					{
-						playerV[j].playerTurn(questionV[i].dotQuestion, questionV[i].questions, questionV[i].category);
-						
+						playerV[j].playerTurn(questionV[i].dotQuestion, questionV[i].questions, questionV[i].category, j);
+						if (j >= one.playerNumbers)
+							j = 0;
 
 						if (questionV[i].questions == questionV[i].dotQuestion)
 							break;
 					}
 
 				} while (questionV[i].questions!=questionV[i].dotQuestion);
+				Sleep(2000);
+				system("cls");
+
+				
+				sort = playerV;
+				for (int c = 0; c < one.playerNumbers; c++)
+					for (int d = 0; d < one.playerNumbers - 1; d++)
+						if (sort[d].money < sort[d + 1].money)
+							swap(sort[d], sort[d + 1]);
+				cout << "Wyniki po " << i + 1 << " rundzie:" << endl;
+
+				for (int k = 0; k < one.playerNumbers; k++)
+					cout << k + 1 << ". " << sort[k].name << " " << sort[k].money << endl;
+				
 				currentRound++;
+				cout << "\n\n\n";
+				cout << "Nacisnij ENTER aby przejsc do nastepnej rundy";
 				cin.get();
 			}
+			one.roundNumbers += 1;
+			sort[0].finalRound(randomNumber());
 			system("cls");
 			break;
 		}
@@ -104,8 +124,10 @@ int main()
 		}
 		case 3:
 		{
+			Player rank;
+			rank.loadRank();
 			cin.get();
-			cin.get();
+			system("cls");
 			break;
 		}
 		case 4:
@@ -128,13 +150,18 @@ int main()
 void showRules()
 {
 	system("cls");
-	cout << "1. Gra przeznaczona dla dwoch graczy." << endl << endl;;
-	cout << "2. Spolgloski mozna podawac, a samogloski sie kupuje." << endl << endl;
-	cout << "3. Koszt samogloski 50." << endl << endl;
-	cout << "4. Jesli podasz samogloske, a nie masz wystarczajacej ilosci pieniedzy na koncie " << endl;
+	cout << "1. Gra sklada sie z ilosci rund podanej przez uzytkownika." << endl << endl;
+	cout << "2. Ilosc rund i graczy mozna zmienic w zakladce \"Ustawienia gry\"" << endl << endl;
+	cout << "3. W rankingu zostaje zapisany tylko gracz ktory dotarl do finalu." << endl << endl;
+	cout << "   Bez koniecznosci odgadniecia hasla finalowego." << endl << endl;
+	cout << "4. Spolgloski mozna podawac, a samogloski sie kupuje." << endl << endl;
+	cout << "5. Koszt samogloski 50." << endl << endl;
+	cout << "6. Jesli podasz samogloske, a nie masz wystarczajacej ilosci pieniedzy na koncie " << endl;
 	cout << "   stracisz kolejke." << endl << endl;
-	cout << "5. Przy podawaniu calego hasla nagroda to 50 za kazda litere hasla." << endl << endl;
-	cout << "6. Aby podac haslo w calosci nalezy zamiast litery wpisac 0 (zero)." << endl << endl;
+	cout << "7. Aby podac haslo w calosci nalezy zamiast litery wpisac 0 (zero)." << endl << endl;
+	cout << "8. Przy podawaniu calego hasla nagroda to 50 za kazda litere hasla." << endl << endl;
+	cout << "9. W finale gdy uzytkownik odgdnie haslo nagroda to 100 za kazda litere hasla." << endl << endl;
+	
 
 	cin.get();
 	cin.get();
@@ -181,7 +208,6 @@ void playerRoundNumbers(options& one)
 	}
 
 
-	cin.get();
 	system("cls");
 }
 int randomNumber()
@@ -214,26 +240,4 @@ void getSettings()
 	settings >> one.playerNumbers;
 	settings >> one.roundNumbers;
 	settings.close();
-}
-int getReward()
-{
-	int prizeAm = 0;
-	int reward = 0;
-	int prizeNr = 0;
-	fstream rew;
-	rew.open("nagrody.txt");
-	while (!rew.eof())
-	{
-		rew >> reward;
-		prizeAm++;
-	}
-	rew.seekg(0);
-
-	srand(time(NULL));
-	prizeNr = (rand() % prizeAm) + 1;
-	for (int i = 0; i < prizeNr; i++)
-		rew >> reward;
-	rew.close();
-	return reward;
-
 }
