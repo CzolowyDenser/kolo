@@ -31,6 +31,7 @@ vector <int> questionNumber(one.roundNumbers+1);
 int main()
 {
 	int whichPlayer = 0;
+	Player rankk;
 
 	do
 	{
@@ -109,11 +110,13 @@ int main()
 				
 				currentRound++;
 				cout << "\n\n\n";
-				cout << "Nacisnij ENTER aby przejsc do nastepnej rundy";
+				cout << "Nacisnij ENTER aby przejsc do nastepnej rundy.";
 				cin.get();
 			}
 			one.roundNumbers += 1;
 			sort[0].finalRound(randomNumber());
+			
+			rankk.loadRank();
 			system("cls");
 			break;
 		}
@@ -124,8 +127,7 @@ int main()
 		}
 		case 3:
 		{
-			Player rank;
-			rank.loadRank();
+			rankk.loadRank();
 			cin.get();
 			system("cls");
 			break;
@@ -150,7 +152,7 @@ int main()
 void showRules()
 {
 	system("cls");
-	cout << "1. Gra sklada sie z ilosci rund podanej przez uzytkownika." << endl << endl;
+	cout << "1. Gra sklada sie z ilosci rund podanej przez uzytkownika + runda finalowa." << endl << endl;
 	cout << "2. Ilosc rund i graczy mozna zmienic w zakladce \"Ustawienia gry\"" << endl << endl;
 	cout << "3. W rankingu zostaje zapisany tylko gracz ktory dotarl do finalu." << endl << endl;
 	cout << "   Bez koniecznosci odgadniecia hasla finalowego." << endl << endl;

@@ -75,7 +75,8 @@ void Player::playerTurn(string& dot, string que, string cat, int& j)
 			}
 		}
 
-		if(letter == 'a' || letter == 'e' || letter == 'y' || letter == 'u' || letter == 'i' || letter == 'o')
+		if (letter == 'a' || letter == 'e' || letter == 'y' || letter == 'u' || letter == 'i' || letter == 'o')
+		{
 			if (money < 50)
 			{
 				cout << "Nie mozesz podac samogloski.\nBrak srodkow na koncie. Tracisz kolejke." << endl;
@@ -84,7 +85,9 @@ void Player::playerTurn(string& dot, string que, string cat, int& j)
 				system("cls");
 				return;
 			}
-
+			cout << "Podales samogloske> Koszt 50." << endl;
+				money -= 50;
+		}
 		for (int i = 0; i <= dot.size(); i++)
 		{
 			if (que[i] == letter)
@@ -244,10 +247,10 @@ void Player::finalRound(int qnr)
 		cout << "\nHaslo nieprawidlowe.\n\nPrawidlowe haslo to " << finalR.questions << endl;
 	}
 
-	cout << "\n\n" << name << " twoj stan konta po finale " << money <<"."<< endl;
+	cout << "\n\n" << name << " twoj stan konta po finale " << money << ".\n\n";
+	cout << "Nacisnij ENTER aby wyswietlic ranking" << endl;
 	
 	saveRank();
-	loadRank();
 
 	cin.get();
 	cin.get();
@@ -257,7 +260,8 @@ void Player::saveRank()
 {
 	fstream save;
 	save.open("ranking.txt", ios::app );
-	save << money << " " << name << endl;
+	save << endl;
+	save << money << " " << name;
 	save.close();
 }
 void Player::loadRank()
@@ -273,32 +277,33 @@ void Player::loadRank()
 
 	system("cls");
 	fstream load;
-	load.open("ranking.txt", ios::in);
+	load.open("ranking.txt");
 	while (!(load.eof()))
 	{
 		getline(load, test);
 		k++;
 	}
-	load.seekg(0);
-	rank* tab = new rank[k+1];
-	while (!(load.eof()))
-	{
-		load >> tab[i].mon;
-		getline(load, tab[i].nam);
-		i++;
-	}
 	load.close();
+	fstream loadd;
+	loadd.open("ranking.txt");
+	rank* tab = new rank[k+1];
+	for (int l = 0; l < k; l++)
+	{
+		loadd >> tab[l].mon;
+		getline(loadd, tab[l].nam);
+	}
+	loadd.close();
 	for (int j = 0; j < k; j++)
 	{
-		for (int c = 0; c < k - 1; c++)
+		for (int c = 0; c <= k - 1; c++)
 		{
 			if (tab[c].mon < tab[c + 1].mon)
 				swap(tab[c], tab[c + 1]);
 		}
 	}
-	for (int j = 0; j < i; j++)
+	for (int g = 0; g < k; g++)
 	{
-		cout <<j+1 <<". " << tab[j].nam << " " << tab[j].mon << ".\n";
+		cout <<g+1 <<"." << tab[g].nam << " " << tab[g].mon << ".\n";
 	}
 	cin.get();
 	
