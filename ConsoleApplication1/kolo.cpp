@@ -36,6 +36,7 @@ int main()
 	do
 	{
 		int menu = 0;
+		cout << "\t\t\tKOLO FORTUNY v1.0\n\n\n";
 		cout << "1. Rozpocznij gre." << endl;
 		cout << "2. Zasady." << endl;
 		cout << "3. Ranking. " << endl;

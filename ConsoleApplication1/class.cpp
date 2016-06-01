@@ -6,6 +6,8 @@
 #include <time.h>
 #include <windows.h>
 #include <vector>
+#include <chrono>
+#include <future>
 #include "class.h"
 
 using namespace std;
@@ -233,6 +235,38 @@ void Player::finalRound(int qnr)
 	cout << finalR.category << " " << finalR.dotQuestion << "\n\n";
 	cout << "Podaj haslo: ";
 	cin >> check;
+
+
+/*	auto read_future = async(launch::async, read_string());
+
+	cout << "Masz 20 sekund.\n\n";
+	cout << "Podaj haslo: ";
+
+	auto read_status = read_future.wait_for(chrono::seconds(3));
+
+	if (read_status == future_status::ready)
+		cout << "user input: " << read_future.get() << endl;
+	else
+		cout << "Koniec czasu!" << endl;
+
+	cout << "done!" << endl;*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	if (finalR.questions == check)
 	{
 		int c = 0;
@@ -259,10 +293,18 @@ void Player::finalRound(int qnr)
 void Player::saveRank()
 {
 	fstream save;
-	save.open("ranking.txt", ios::app );
-	save << endl;
-	save << money << " " << name;
-	save.close();
+	save.open("ranking.txt", ios::app);
+	if(save.tellg())
+	{
+		save << endl;
+		save << money << " " << name;
+		save.close();
+	}
+	else
+	{
+		save << money << " " << name;
+		save.close();
+	}
 }
 void Player::loadRank()
 {
@@ -273,11 +315,13 @@ void Player::loadRank()
 	};
 	int i = 0;
 	int k = 0;
+	bool reset=1;
+	char resetAsk;
 	string test;
 
 	system("cls");
 	fstream load;
-	load.open("ranking.txt");
+	load.open("ranking.txt", ios::app);
 	while (!(load.eof()))
 	{
 		getline(load, test);
@@ -286,7 +330,7 @@ void Player::loadRank()
 	load.close();
 	fstream loadd;
 	loadd.open("ranking.txt");
-	rank* tab = new rank[k+1];
+	rank* tab = new rank[k + 1];
 	for (int l = 0; l < k; l++)
 	{
 		loadd >> tab[l].mon;
@@ -299,12 +343,33 @@ void Player::loadRank()
 		{
 			if (tab[c].mon < tab[c + 1].mon)
 				swap(tab[c], tab[c + 1]);
-		}
-	}
+	}		}
 	for (int g = 0; g < k; g++)
 	{
-		cout <<g+1 <<"." << tab[g].nam << " " << tab[g].mon << ".\n";
+		cout << g + 1 << "." << tab[g].nam << " " << tab[g].mon << ".\n";
+	}
+	cout << endl;
+	cout << "Aby zersetowac ranking wpisz 0 (zero) lub dowalna wartos aby wyjsc." << endl;
+	cin >> reset;
+	if (reset == 0)
+	{
+		cout << "Jestes tego pewien t\\n: ";
+		cin >> resetAsk;
+		if (resetAsk == 't')
+		{
+			cout << "\nRanking zresetowany!";
+			fstream reset;
+			reset.open("ranking.txt", ios::out, ios::trunc);
+			reset.close();
+		}
 	}
 	cin.get();
 	
+}
+
+string Player::read_string()
+{
+	string result;
+	cin >> result;
+	return result;
 }

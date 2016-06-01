@@ -18,8 +18,9 @@ public:
 		void saveRank();
 		void loadRank();
 		int getReward();
-		
-		
+		string read_string();
+
+	
 };
 
 class Question
