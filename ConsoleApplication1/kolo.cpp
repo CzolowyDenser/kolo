@@ -24,25 +24,19 @@ struct options
 void getSettings();
 void showRules();
 void playerRoundNumbers(options&);
+void showMenu();
 int randomNumber();
 
 vector <int> questionNumber(one.roundNumbers+1);
 
 int main()
 {
-	int whichPlayer = 0;
 	Player rankk;
 
 	do
 	{
 		int menu = 0;
-		cout << "\t\t\tKOLO FORTUNY v1.0\n\n\n";
-		cout << "1. Rozpocznij gre." << endl;
-		cout << "2. Zasady." << endl;
-		cout << "3. Ranking. " << endl;
-		cout << "4. Ustawienia gry." << endl;
-		cout << "5. Wyjscie." << endl;
-
+		showMenu();
 		while (!(cin >> menu) || menu >= 6)
 		{
 			cin.clear();
@@ -212,6 +206,16 @@ void playerRoundNumbers(options& one)
 
 
 	system("cls");
+}
+void showMenu()
+{
+	cout << "\t\t\tKOLO FORTUNY v1.0\n\n\n";
+	cout << "1. Rozpocznij gre." << endl;
+	cout << "2. Zasady." << endl;
+	cout << "3. Ranking. " << endl;
+	cout << "4. Ustawienia gry." << endl;
+	cout << "5. Wyjscie." << endl;
+
 }
 int randomNumber()
 {
